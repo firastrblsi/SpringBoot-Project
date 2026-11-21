@@ -1,21 +1,32 @@
 package com.sesame.librairie.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 /**
  * Représente un livre de la bibliothèque.
  *
- * <p>C'est un simple POJO (Plain Old Java Object) : il ne contient que des
- * attributs, des accesseurs et des modifieurs. Il n'est volontairement pas
- * annoté avec JPA (@Entity, @Id) car, dans ce TP, les livres sont stockés
- * dans une liste Java en mémoire et non dans une base de données.</p>
+ * <p>C'est une entité JPA (JPA Entity) qui est persistée dans la base de données
+ * H2 via Spring Data JPA et Hibernate.</p>
  */
+@Entity
 public class Livre {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 200)
     private String titre;
+
     private String auteur;
+
     private int annee;
 
-    /** Constructeur sans argument, requis par les frameworks de sérialisation. */
+    /** Constructeur sans argument, requis par JPA. */
     public Livre() {
     }
 
