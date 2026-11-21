@@ -1,6 +1,7 @@
 package com.sesame.librairie.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -43,5 +44,33 @@ class LivreServiceTest {
         Livre livre = service.ajouter("Candide", "Voltaire", 1759);
         assertTrue(livre.getId() != null);
         assertEquals(6, service.compter());
+    }
+
+    @Test
+    void modifierChangeLesValeursDuLivre() {
+        Livre donnees = new Livre(null, "Les Misérables", "V. Hugo", 1862);
+
+        Livre modifie = service.modifier(1L, donnees).get();
+
+        assertEquals("V. Hugo", modifie.getAuteur());
+        assertEquals("V. Hugo", service.trouver(1L).get().getAuteur());
+    }
+
+    @Test
+    void modifierRenvoieVideSiIdInconnu() {
+        Livre donnees = new Livre(null, "Inconnu", "Inconnu", 2000);
+
+        assertTrue(service.modifier(99L, donnees).isEmpty());
+    }
+
+    @Test
+    void supprimerRetireLeLivre() {
+        assertTrue(service.supprimer(1L));
+        assertEquals(4, service.compter());
+    }
+
+    @Test
+    void supprimerRenvoieFauxSiIdInconnu() {
+        assertFalse(service.supprimer(99L));
     }
 }
